@@ -1,6 +1,7 @@
-import {View, Text, FlatList, TouchableOpacity, Button, Animated, TextInput} from 'react-native'
+import {View, Text, FlatList, TouchableOpacity, Button, Animated, TextInput, Image} from 'react-native'
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import * as SQLite from 'expo-sqlite'
+import close from '../../assets/close.png'
 
 import { ListCSS } from './ListCSS'
 
@@ -14,7 +15,9 @@ export default function List(){
     const lastTap = useRef(0);
     const [colorList, setColorList] = useState([])
     const transAnim = useRef(new Animated.Value(0)).current
-    const [showEditView, setShowEditView] = useState("flex")
+    const [showEditView, setShowEditView] = useState("none")
+    const [editViewInfo, setEditViewInfo] = useState(null)
+    const [task, setTask] = useState(["", "", "", ""]) 
 
 
 
@@ -50,11 +53,11 @@ export default function List(){
         let current = new Date();
 
         todoList.map((todo)=>{
-            console.log(todo['date']);
+            // console.log(todo['date']);
             let date = new Date(todo['date'].replace(" ", "T"))
 
-            console.log(date.toLocaleString());
-            console.log(current.toLocaleString());
+            // console.log(date.toLocaleString());
+            // console.log(current.toLocaleString());
             if(date>current){
                 let diff = Math.floor((date-current)/(60*60*1000))
                 if(diff <24){
@@ -122,7 +125,7 @@ export default function List(){
 
 
     const renderItem=({item, index})=>{
-        // console.log("index "+index);
+        // console.log(item);
         return (
             // Details
             <TouchableOpacity
@@ -180,7 +183,7 @@ export default function List(){
 
                 <TouchableOpacity
                     style={styles.editBtn}
-                    onPress={animate}
+                    onPress={()=>animate(item)}
                 >
                     <Text style={styles.editBtnText}>Edit</Text>
                 </TouchableOpacity>
@@ -190,8 +193,10 @@ export default function List(){
             )
     }
 
-    const animate=()=>{
+    const animate=(item)=>{
         setShowEditView("flex");
+        setEditViewInfo(item)
+        console.log(item);
 
         Animated.sequence([
             Animated.timing(transAnim, {
@@ -223,28 +228,129 @@ export default function List(){
         )
     
     }
+
+    const editHandle=()=>{
+        console.log(editViewInfo);
+        console.log(task);
+        if(editViewInfo == null || task[0]=="" || task[1]=="" || task[2]=="" || task[3]==""){
+            alert('Make sure a task is selected or any of the infomation is missing on edit view')
+            return
+        }
+        db.transaction((tx)=>{
+            tx.executeSql(
+                "UPDATE todos set todo=?, status=?, level=?, date=? WHERE ID=?",
+                [task[0], task[1], task[2], task[3], editViewInfo["ID"] ],
+                (txObj, result)=>{
+                    console.log("Update-----------------");
+                    console.log(result)
+                    alert("Todos has been updated")
+                    setEditViewInfo(null)
+                    setTask(["", "", "", ""])
+                    fetchData()
+                    console.log("......................");
+                }
+            );
+        })
+    }
     
+    const EditInputView=()=>{
+
+        if(editViewInfo != null){
+            return(
+                <View>
+                    <TouchableOpacity
+                        onPress={()=>{setShowEditView("none"); setEditViewInfo(null); setTask(["", "", "", ""]);}}
+                        style={styles.editCloseBtn}
+                    >
+                        <Image source={close} 
+                            style={{width: 50, height: 50}} resizeMode="contain"
+                        />
+                    </TouchableOpacity>
+
+                    
+                    <Text style={styles.textStyle} >Todo -</Text>
+                    <TextInput
+                        style={styles.inputStyle}
+                        placeholder='WRITE TODO'
+                        onChangeText={(newText)=>{
+                            let a = task
+                            a[0] = newText
+                            setTask(a)
+                    }}
+                    />
+            
+                    <Text style={styles.textStyle}>STATUS -</Text>
+                    <TextInput
+                    style={styles.inputStyle}
+                    placeholder='Give STATUS'
+                    onChangeText={(newText)=>{
+                        let a = task
+                        a[1] = newText
+                        setTask(a)
+                    }}
+                    />
+            
+                    <Text style={styles.textStyle}>LEVEL -</Text>
+                    <TextInput
+                    style={styles.inputStyle}
+                    placeholder='GIVE LEVEL'
+                    onChangeText={(newText)=>{
+                        let a = task
+                        a[2] = newText
+                        setTask(a)
+                    }}
+                    />
+            
+                    <Text style={styles.textStyle}>DATE -</Text>
+                    <TextInput
+                    style={styles.inputStyle}
+                    placeholder='WRITE DATE'
+                    onChangeText={(newText)=>{
+                        let a = task
+                        a[3] = newText
+                        setTask(a)
+                    }}
+                    />
+            
+                    <TouchableOpacity 
+                        style={
+                            [styles.showInsertBtn, {width:100, height: 50, marginTop: 0}, styles.buttonShadow]
+                        }
+
+                        onPress={editHandle}
+                    >
+                    <Text>Submit</Text>          
+                    </TouchableOpacity>
+            
+                    
+            
+                </View>
+                
+            )
+        }else{
+            return(<Text>Choose a task to Edit</Text>)
+        }
+        
+    }
 
 
 
     return(
         <View>
 
-            <Animated.View style={[styles.editView, {marginTop: transAnim, display: showEditView}]}>
-                <TouchableOpacity
-                    onPress={()=>{setShowEditView("none")}}
-                    style={{marginLeft: 180, marginTop: 10}}
-                >
-                    <Text style={{fontSize: "20"}}>Close</Text>
-                </TouchableOpacity>
+            {/* Edit View */}
+            <Animated.View style={[styles.insertTodo, {marginTop: transAnim, display: showEditView}]}>
 
-                {/*  */}
+                {/* Edit inputes */}
+                <EditInputView />
 
+                {/* .............. */}
                 
-                
-                {/*  */}
                 
             </Animated.View>
+            {/* .............. */}
+
+
             <TodoRendering />
         </View>
     )

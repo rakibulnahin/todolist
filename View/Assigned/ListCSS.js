@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes"
 
 
 export const ListCSS=StyleSheet.create({
@@ -80,12 +81,90 @@ export const ListCSS=StyleSheet.create({
         backgroundColor: "#07e358",
         height: 250,
         width: 250,
-        // margin: 10,
+        alignItems: "center",
         position: 'absolute',
         zIndex: 3,
-        // marginTop: 0,
+        display: 'flex',
+        justifyContent: 'space-between',
     },
 
+    // editInputView:{
+    //     backgroundColor: "white",
+    //     width: 180,
+    //     height: 30,
+    //     borderRadius: 10,
+    //     margin: 5,
+    // },
+
+    editCloseBtn:{
+        marginLeft: 150, 
+        marginTop: -30, 
+        borderRadius:50, 
+        position: 'absolute', 
+        shadowColor: "black",
+        shadowOffset:{
+            height: 3,
+            width: -5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+    },
+
+    insertTodo:{
+        position: 'absolute',
+        zIndex: 3,
+        backgroundColor: "#5695fc",
+        width: 250,
+        margin: 10,
+        justifyContent: "space-around",
+        alignItems: "center",
+        height: 310,
+        borderRadius: 7,
+        shadowColor: "#0c0d0c",
+        shadowOpacity: 0.4,
+        shadowOffset:{
+          height: 7,
+          width: -8,
+        },
+        shadowRadius: 3
+        
+    },
+    
+    textStyle:{
+        fontSize: 20,
+        fontFamily: "Baskerville-SemiBold",
+        fontWeight: "500",
+        color: '#fafcff'
+    },
+    
+    inputStyle:{
+        backgroundColor: "white",
+        borderRadius: 10,
+        borderStyle: "solid",
+        borderColor: "#32a852",
+        borderWidth: 3,
+        width: 150,
+        height: 35,
+        // height:
+    padding: 5
+    },
+
+    showInsertBtn:{
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 3,
+        borderColor: '#36a1ff',
+        borderRadius: 10,
+        margin: 5,
+    },
+
+    buttonShadow:{
+        shadowColor: '#055df5',
+        shadowOpacity: 0.5,
+        shadowOffset:{width: -5, height: 5},
+        shadowRadius: 2
+    },
 
 
 
