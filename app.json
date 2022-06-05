@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "My-TODO",
+    "slug": "Todo",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/user.png",
+    "splash": {
+      "image": "./assets/user.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "rakibulnahin.my_todo",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
