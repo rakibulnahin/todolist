@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native"
-import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes"
+// import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes"W
 
 
-export const ListCSS=StyleSheet.create({
+export const DueListCSS=StyleSheet.create({
     listcontainer: {
-        backgroundColor: '#926af7',
+        // backgroundColor: '#926af7',
         margin: 20,
         borderRadius: 10,
         width: 300,
-        height: 350,
+        height: 480,
         alignContent: 'center',
         alignItems: 'center',
 

@@ -8,6 +8,13 @@ export const AssignedCSS = StyleSheet.create({
     alignItems: "center",
   },
 
+  title: {
+    fontFamily: 'Arial-ItalicMT',
+    fontSize: 25,
+    margin: 10,
+    color: "#fc3903",
+  } ,
+
   insertTodo:{
     backgroundColor: "#5695fc",
     width: 300,

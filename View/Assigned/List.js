@@ -1,6 +1,9 @@
 import {View, Text, FlatList, TouchableOpacity, Button, Animated, TextInput, Image} from 'react-native'
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import * as SQLite from 'expo-sqlite'
+import * as Permissions from 'expo-permissions'
+import * as Notification from 'expo-notifications'
+
 import close from '../../assets/close.png'
 
 import { ListCSS } from './ListCSS'
@@ -72,8 +75,19 @@ export default function List(){
                 }
                 
             }else{
-                console.log("DUE ", Math.floor((current-date)/(60*60*1000)));
-                color_list.push("pink")
+                db.transaction((tx)=>{
+                    tx.executeSql(
+                        "UPDATE todos set status=? WHERE ID=?",
+                        ["due", todo["ID"]],
+                        (txObj, result)=>{
+                            console.log(todo["ID"] + " is due -------------------");
+                            console.log(result);
+                            fetchData()
+                            console.log(".........................");
+                        },
+                        (txObj, error)=>console.log(error)
+                    )
+                })
             }
 
         })
@@ -363,3 +377,4 @@ export default function List(){
 }
 
 const styles = ListCSS
+

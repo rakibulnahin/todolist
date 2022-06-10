@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, TextInput, Button, Platform, ScrollView,
 import * as SQLite from 'expo-sqlite'
 // import { fetchAllData, createTable } from '../../Database/GetData';
 import { useState, useEffect } from "react";
+import * as Permissions from 'expo-permissions'
+import * as Notification from 'expo-notifications'
 
 import { ListCSS } from '../Assigned/ListCSS';
 
@@ -84,13 +86,15 @@ export default function Current(){
         <ScrollView>
             <Text>This is from Current</Text>
             <Text>{JSON.stringify(todoList)}</Text>
-            <View>
+            {/* <View>
                 <FlatList 
                     data={fakeList}
                     renderItem={renderItem}
                 
                 />
-            </View>
+            </View> */}
+
+            <Button title='Notification' />
 
         </ScrollView>
     )

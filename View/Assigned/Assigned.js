@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TextInput, Button, Platform, ScrollView,
 } from 'react-native';
 import * as SQLite from 'expo-sqlite'
 import { useState, useEffect, useLayoutEffect } from 'react';
+import { Picker } from "@react-native-picker/picker";
 
 
 import {AssignedCSS} from './AssignedCSS';
@@ -249,9 +250,8 @@ export default function Assigned(){
   return(
     <ScrollView contentContainerStyle={styles.container}>
       
-        <Text>This is from Assigned</Text>
+      <Text style = {styles.title}>{todoList.length} is Assigned</Text>
         
-      <Options />
       {InsertView()}
       
       <View style={styles2.listcontainer}>
